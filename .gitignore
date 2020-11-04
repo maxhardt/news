@@ -1,0 +1,14 @@
+# data
+data/*
+
+# models
+models/*
+
+# IDE
+.vscode
+
+# macos
+.DS_Store
+
+# notes
+todos.md
