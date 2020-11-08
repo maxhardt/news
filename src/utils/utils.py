@@ -1,8 +1,10 @@
 # imports
-import pandas as pd
 import zipfile
 import wget
 import os
+from typing import Tuple, Dict
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
 # load environment variables
 from dotenv import load_dotenv
@@ -47,3 +49,37 @@ def load_dataset_from_csv(csv_path: str = CSV_PATH) -> pd.DataFrame:
     cols = ["id", "title", "url", "publisher", "category", "story", "hostname", "timestamp"]
 
     return pd.read_csv(csv_path, delimiter="\t", names=cols, index_col=0)
+
+
+def get_train_test_data(news: pd.DataFrame, test_size: float) -> Tuple:
+    """Splits the news dataset into training and testing.
+
+    Args:
+        news (pd.DataFrame): The dataset as pandas DataFrame.
+        test_size (float): The size in percent of the test data.
+
+    Returns:
+        Tuple: A tuple of size (4,) with x_train, y_train, x_test, y_test
+    """
+
+    train, test = train_test_split(news, test_size=test_size)
+
+    x_train, y_train = train["title"].values, train["category"].values
+    x_test, y_test = test["title"].values, test["category"].values
+
+    return x_train, y_train, x_test, y_test
+
+
+def category_mapping() -> Dict:
+    """Defines the mapping from encoded labels to decoded categories.
+
+    Returns:
+        Dict: Keys are encoded labels and values are decoded categories.
+    """
+
+    return {
+        "b": "business",
+        "t": "science and technology",
+        "e": "entertainment",
+        "m": "health"
+    }
