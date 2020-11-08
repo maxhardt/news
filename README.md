@@ -30,7 +30,7 @@ Repository for training and serving a news classifier.
         │   ├── eval.py                             # evaluation functionalities
         │   └── train.py                            # training functionalities
         └── utils
-            └── utils.py                            # download, preprocessing, mapping
+            └── utils.py                            # downloading and handling data
 
 ## Setup
 
