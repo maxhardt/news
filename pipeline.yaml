@@ -1,0 +1,18 @@
+# config file for model training
+
+random_seed: 42 # for reproducability
+test_size: 0.5 # size of held-out test set
+
+parameters: # hyperparameters for tuning
+    vectorizer__max_features: # number of features for bag of words
+        - 20000
+        - 5000
+    tfidf__use_idf: # whether to use tfidf
+        - True
+    naivebayes__alpha: # naive bayes smoothin parameter
+        - 1.0
+
+search: # parameters for the grid search
+    n_jobs: -1 # parallel processes (-1 means maximum available)
+    k_splits: 3 # number of splits
+    metric: "balanced_accuracy" # metric for selecting best parameters
