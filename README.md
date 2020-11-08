@@ -20,7 +20,7 @@ Repository for training and serving a news classifier.
     │   ├── exploratory.ipynb                       # eda notebook
     │   └── modeling.ipynb                          # initial modeling notebook
     ├── pipeline.yaml                               # config for training a model
-    ├── run_training.py                             # script for running training
+    ├── run_ml.py                                   # script for running ml pipeline
     ├── app.py                                      # serving app entry point
     └── src
         ├── api
