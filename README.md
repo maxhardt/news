@@ -1,4 +1,4 @@
-# ING document classification
+# End-to-end news classification
 
 Repository for training and serving a news classifier.
 
