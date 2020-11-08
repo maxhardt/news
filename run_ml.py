@@ -1,5 +1,6 @@
 # imports
 import os
+import logging
 from contextlib import suppress
 import click
 import yaml
@@ -14,21 +15,20 @@ from src.ml.train import get_sklearn_pipeline, train_and_hyperparameter_search
 from src.ml.eval import evaluate_pipeline
 
 
-@click.command()
-@click.argument("config-file", type=click.Path(exists=True))
-@click.option("--verbose", default=True, is_flag=True)
 def run_training(config_file: str, verbose: bool = True) -> None:
     """CLI for training, hyperparametersearch and evaluation.
 
     Args:
         config_file (str): Path to the .yaml file with hyperparameters for training.
-        verbose (bool): If true, prints results and meta-information of the run.
+        verbose (bool): If true, logging.infos results and meta-information of the run.
 
     Returns:
         run (mlflow.run): mlflow.run object with meta-information on the current run.
         final_params (Dict): Final hyperparameters of the fitted pipeline.
         test_results (Dict): Test evaluation results of the final pipeline.
     """
+
+    logging.info(f"\nAttempting to run ml pipeline from {config_file}\n")
 
     with open(config_file, "r") as f:
         config = yaml.safe_load(stream=f)
@@ -63,12 +63,20 @@ def run_training(config_file: str, verbose: bool = True) -> None:
             serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_PICKLE
         )
 
-        print(f"\nMeta-information on the training run: \n{run.info}\n")
-        print(f"\nFinal hyperparameters from gridsearch: \n{final_params}\n")
-        print(f"\nAchieved evaluation results on test set: \n{test_results}\n")
+        logging.info(f"\nMeta-information on the training run: \n{run.info}\n")
+        logging.info(f"\nFinal hyperparameters from gridsearch: \n{final_params}\n")
+        logging.info(f"\nAchieved evaluation results on test set: \n{test_results}\n")
 
         # show meta information about the run
         return run, final_params, test_results
 
+@click.command()
+@click.argument("config-file", type=click.Path(exists=True))
+@click.option("--verbose", default=True, is_flag=True)
+def run_training_cli(config_file: str, verbose: bool = True) -> None:
+    """Wraps the run_training to provide it as both CLI and REST.
+    """
+    run_training(config_file=config_file, verbose=verbose)
+
 if __name__ == "__main__":
-    run_training() # pylint: disable=no-value-for-parameter
+    run_training_cli() # pylint: disable=no-value-for-parameter
