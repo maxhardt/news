@@ -16,7 +16,7 @@ from src.ml.eval import evaluate_pipeline
 
 
 def run_training(config_file: str, verbose: bool = True) -> None:
-    """CLI for training, hyperparametersearch and evaluation.
+    """Function for training, hyperparametersearch and evaluation.
 
     Args:
         config_file (str): Path to the .yaml file with hyperparameters for training.
@@ -74,7 +74,7 @@ def run_training(config_file: str, verbose: bool = True) -> None:
 @click.argument("config-file", type=click.Path(exists=True))
 @click.option("--verbose", default=True, is_flag=True)
 def run_training_cli(config_file: str, verbose: bool = True) -> None:
-    """Wraps the run_training to provide it as both CLI and REST.
+    """Wraps the run_training to provide it as CLI.
     """
     run_training(config_file=config_file, verbose=verbose)
 

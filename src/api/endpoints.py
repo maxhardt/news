@@ -1,6 +1,6 @@
 # imports
 import logging
-from typing import Dict
+from typing import Dict, Optional
 import numpy as np
 from fastapi import APIRouter, HTTPException
 from starlette.requests import Request
@@ -46,7 +46,7 @@ def get_prediction(request: Request, payload: NewsTitle) -> NewsCategory:
         category=category
     )
 
-def train_and_deploy(request: Request, pipeline_config: str) -> Dict:
+def train_and_deploy(request: Request, pipeline_config: Optional[str] = "pipeline.yaml") -> Dict:
     """Optional endpoint for training and deploying a new model.
 
     Returns:
