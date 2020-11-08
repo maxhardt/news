@@ -17,7 +17,7 @@ from src.ml.eval import evaluate_pipeline
 @click.command()
 @click.argument("config-file", type=click.Path(exists=True))
 @click.option("--verbose", default=True, is_flag=True)
-def run_training(config_file: str, verbose: bool) -> None:
+def run_training(config_file: str, verbose: bool = True) -> None:
     """CLI for training, hyperparametersearch and evaluation.
 
     Args:

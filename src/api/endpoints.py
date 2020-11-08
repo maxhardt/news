@@ -6,7 +6,7 @@ from starlette.requests import Request
 
 # local absolute imports
 from src.utils.utils import category_mapping
-from run import run_training
+from run_ml import run_training
 from src.api.model import NewsCategory, NewsTitle, NewsClassifier
 
 
