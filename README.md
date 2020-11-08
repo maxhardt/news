@@ -60,7 +60,16 @@ The app can be started by running:
 
 ## Usage
 
-### Train and evaluate a news classifier
+### Experimentation (optional)
+
+The app provides a command line interface (CLI) for ml experimentation and hyperparametersearch. One possible workflow is the following:
+
+1. Edit the ```steps``` in the ```src.ml.train```module to different models.
+2. Edit the ```pipeline.yaml``` to search for the models best hyperparameters.
+3. Run ```$ python run_ml.py pipeline.yaml``` to experiment
+4. Track experiments using the mlflow Tracking APIs e.g. by running ```$ mlflow ui```
+
+### Train and deploy a news classifier
 
 Assuming the app is running, the first step is to train a classifier using the ```train_and_deploy``` endpoint. Per default, the ```pipeline.yaml``` file is used to perform a gridsearch over hyperparameters before evaluation on the test dataset. Processing time is expected to be < 10 seconds. The trained classifier is then autoamtically deployed to serve the [predict API](#Serve-news-classifier) Optionally, this file can be modified with valid sklearn parameters before(!) starting the service with ```docker run```.
 
