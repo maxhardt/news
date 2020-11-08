@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/u737896/Development/Projects/ing/mlruns/1/592dfd384f8243d3a772b1343d1646c0/artifacts
+end_time: 1604840784910
+entry_point_name: ''
+experiment_id: '1'
+lifecycle_stage: active
+name: ''
+run_id: 592dfd384f8243d3a772b1343d1646c0
+run_uuid: 592dfd384f8243d3a772b1343d1646c0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1604840770656
+status: 3
+tags: []
+user_id: u737896

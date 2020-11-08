@@ -1,0 +1,4 @@
+artifact_location: file:///Users/u737896/Development/Projects/ing/mlruns/1
+experiment_id: '1'
+lifecycle_stage: active
+name: news
