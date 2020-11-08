@@ -1,7 +1,6 @@
 # imports
 import os
 from contextlib import suppress
-from typing import Dict
 import click
 import yaml
 import numpy as np
@@ -16,21 +15,19 @@ from src.ml.eval import evaluate_pipeline
 
 
 @click.command()
-@click.option(
-    "--config-file",
-    default="pipeline.yaml",
-    help="Name of the pipeline file with hyperparameters."
-)
-def run_training(config_file: str) -> None:
-    """[summary]
+@click.argument("config-file", type=click.Path(exists=True))
+@click.option("--verbose", default=True, is_flag=True)
+def run_training(config_file: str, verbose: bool) -> None:
+    """CLI for training, hyperparametersearch and evaluation.
 
     Args:
-        config_file (str): [description]
+        config_file (str): Path to the .yaml file with hyperparameters for training.
+        verbose (bool): If true, prints results and meta-information of the run.
 
     Returns:
-        run (...): [description]
-        final_params (Dict): [description]
-        test_results (Dict): [description]
+        run (mlflow.run): mlflow.run object with meta-information on the current run.
+        final_params (Dict): Final hyperparameters of the fitted pipeline.
+        test_results (Dict): Test evaluation results of the final pipeline.
     """
 
     with open(config_file, "r") as f:
@@ -65,6 +62,10 @@ def run_training(config_file: str) -> None:
             artifact_path="model",
             serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_PICKLE
         )
+
+        print(f"\nMeta-information on the training run: \n{run.info}\n")
+        print(f"\nFinal hyperparameters from gridsearch: \n{final_params}\n")
+        print(f"\nAchieved evaluation results on test set: \n{test_results}\n")
 
         # show meta information about the run
         return run, final_params, test_results

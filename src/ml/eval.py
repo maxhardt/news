@@ -8,7 +8,7 @@ from mlflow import log_metric
 from src.utils.utils import category_mapping
 
 
-def evaluate_pipeline(pipeline: Pipeline, test_data: Tuple, verbose: bool = True) -> Dict:
+def evaluate_pipeline(pipeline: Pipeline, test_data: Tuple) -> Dict:
     """Evaluates a Pipeline on test data.
 
     Expected to be called in an mlflow experiment context.
@@ -16,7 +16,6 @@ def evaluate_pipeline(pipeline: Pipeline, test_data: Tuple, verbose: bool = True
     Args:
         pipeline (Pipeline): Pipeline for evaluation.
         test_data (Tuple): Test data features and labels x_test, y_test.
-        verbose (bool, optional): Verbosity. Defaults to True.
 
     Returns:
         metrics (Dict): A sklearn classification report.
@@ -34,8 +33,5 @@ def evaluate_pipeline(pipeline: Pipeline, test_data: Tuple, verbose: bool = True
         if not category == "accuracy":
             for metric, score in zip(metrics.keys(), metrics.values()):
                 log_metric(f"{category}_{metric}", score)
-
-    if verbose:
-        print(report)
 
     return report
