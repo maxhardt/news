@@ -1,6 +1,6 @@
 # End-to-end news classification
 
-Repository for training and serving a news classifier.
+Repository for end-to-end training and serving a news classifier.
 
 - Uses the [News Aggregator Dataset](https://www.kaggle.com/uciml/news-aggregator-dataset) to train a headline classifier.
 
@@ -10,7 +10,7 @@ Repository for training and serving a news classifier.
 
 ## Repostitory structure
 
-*Only non-obvious files are included below*
+*Illustration below does not include all files and may look different on your machine*
 
     .
     ├── README.md
@@ -71,7 +71,7 @@ The app provides a command line interface (CLI) for ml experimentation and hyper
 
 ### Train and deploy a news classifier
 
-Assuming the app is running, the first step is to train a classifier using the ```train_and_deploy``` endpoint. Per default, the ```pipeline.yaml``` file is used to perform a gridsearch over hyperparameters before evaluation on the test dataset. Processing time is expected to be < 10 seconds. The trained classifier is then autoamtically deployed to serve the [predict API](#Serve-news-classifier) Optionally, this file can be modified with valid sklearn parameters before(!) starting the service with ```docker run```.
+Assuming the app is running, the first step is to train a classifier using the ```train_and_deploy``` endpoint. Per default, the ```pipeline.yaml``` file is used to perform a gridsearch over hyperparameters before evaluation on the test dataset. Processing time is expected to be < 10 seconds. The trained classifier is then autoamtically deployed to serve the [predict API](#Serve-the-news-classifier). Optionally, this file can be modified with valid sklearn parameters before(!) starting the service with ```docker run```.
 
     $ curl -X GET "http://localhost:8000/train_and_deploy" -H  "accept: application/json"
 
@@ -141,7 +141,7 @@ Example response:
 
 ### Serve the news classifier
 
-After training and deploying a classifier, the ```predict``` endpoint can be used make predictions for new news titles. Note that the endpoint only uses the news title as a feature and accepts only a single string as input, i.e. does not batch predictions (!).
+After training and deploying a classifier, the ```predict``` endpoint can be used make predictions for new news titles. Note that the endpoint only uses the news title as a feature and accepts only a single string as input, i.e. does not support batch predictions (!).
 
     $ curl -X GET "http://localhost:8000/predict" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"title\":\"apple earnings crash after insider leak\"}"
 
