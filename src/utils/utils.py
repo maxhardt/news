@@ -1,5 +1,6 @@
 # imports
 import zipfile
+import logging
 import wget
 import os
 from typing import Tuple, Dict
