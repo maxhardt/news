@@ -1,4 +1,5 @@
 # imports
+import logging
 import numpy as np
 import mlflow
 from pydantic import BaseModel # pylint: disable=no-name-in-module
@@ -34,12 +35,12 @@ class NewsClassifier(object):
 
         fp = f"runs:/{self.run_id}/model"
         self.model = mlflow.sklearn.load_model(fp)
-        print(f"model {self.run_id} loaded successfully")
+        logging.info(f"model {self.run_id} loaded successfully")
 
     def predict(self, title: str) -> np.array:
         """Predicts the category of a single news title.
 
-        Converts a given string ```s``` to a list ```[s]```.
+        Converts a given string ```s``` to a list ```[s]``` for sklearn model.
 
         Args:
             title (str): A single news title as string.

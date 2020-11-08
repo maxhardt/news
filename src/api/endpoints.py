@@ -1,6 +1,7 @@
 # imports
-import numpy as np
+import logging
 from typing import Dict
+import numpy as np
 from fastapi import APIRouter, HTTPException
 from starlette.requests import Request
 
@@ -45,7 +46,7 @@ def get_prediction(request: Request, payload: NewsTitle) -> NewsCategory:
         category=category
     )
 
-def train_model(request: Request, pipeline_config: str) -> Dict:
+def train_and_deploy(request: Request, pipeline_config: str) -> Dict:
     """Optional endpoint for training and deploying a new model.
 
     Returns:
@@ -53,7 +54,7 @@ def train_model(request: Request, pipeline_config: str) -> Dict:
             about the training run and the new model id.
     """
 
-    run, final_params, test_results = run_training(pipeline_config)
+    run, final_params, test_results = run_training(config_file=pipeline_config)
     new_model = NewsClassifier(run.info.run_id)
     request.app.state.model = new_model
 

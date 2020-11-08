@@ -33,7 +33,7 @@ def download_and_unzip(url: str = URL, zip_path: str = ZIP_PATH, csv_path: str =
     zip_filepath = wget.download(url, out=zip_path)
 
     with zipfile.ZipFile(zip_filepath, "r") as zf:
-        zf.extract(path=csv_path, member="newsCorpora.csv")
+        zf.extract(path="data/raw", member="newsCorpora.csv")
 
 
 def load_dataset_from_csv(csv_path: str = CSV_PATH) -> pd.DataFrame:
@@ -45,6 +45,10 @@ def load_dataset_from_csv(csv_path: str = CSV_PATH) -> pd.DataFrame:
     Returns:
         pd.DataFrame: News Aggregator dataset as pd.DataFrame.
     """
+
+    if not os.path.isfile(csv_path):
+        logging.info(f"\n{csv_path} not found, downloading and extracting data from {URL}.\n")
+        download_and_unzip()
 
     cols = ["id", "title", "url", "publisher", "category", "story", "hostname", "timestamp"]
 
