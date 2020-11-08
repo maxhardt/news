@@ -1,26 +1,15 @@
 # imports
 import os
+import logging
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
+from mlflow.exceptions import MlflowException
 
 # local absolute imports
 from src.api.model import NewsClassifier
-from src.api.endpoints import get_prediction
+from src.api.endpoints import get_prediction, train_and_deploy
+from run_ml import run_training
 
-
-load_dotenv()
-MODEL_ID = os.getenv("MODEL_ID")
-
-def start_app_handler(app: FastAPI) -> None:
-    """Handles loading the model when starting the app.
-
-    Args:
-        app (FastAPI): Application FastAPI object.
-    """
-    def _startup() -> None:
-        model_instance = NewsClassifier(MODEL_ID)
-        app.state.model = model_instance
-    return _startup
 
 app = FastAPI(
     title="News classifier API",
@@ -29,6 +18,6 @@ app = FastAPI(
     debug=True
 )
 
-app.add_event_handler("startup", start_app_handler(app))
 app.add_api_route("/predict", get_prediction, methods=["POST"])
+app.add_api_route("/train_and_deploy", train_and_deploy, methods=["GET"])
 app.add_api_route("/", lambda: app.title, methods=["GET"])
