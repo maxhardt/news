@@ -14,7 +14,6 @@ def get_prediction(request: Request, payload: NewsTitle) -> NewsCategory:
     """Predicts the category of a given news title.
 
     Args:
-        request (Request): The starlette request object.
         payload (NewsTitle): The json payload of the request with
             fields defined in the pydantic ```NewsTitle```object.
 
@@ -29,16 +28,16 @@ def get_prediction(request: Request, payload: NewsTitle) -> NewsCategory:
     title = payload.title
 
     try:
-        model = request.app.state.model
+        classifier: NewsClassifier = request.app.state.model
     except:
         raise HTTPException(
             status_code=400,
             detail="No model found."
         )
 
-    prediction = model.predict([title])
-    label = prediction[0]
-    category = category_mapping()[label]
+    prediction: np.array = classifier.predict(title)
+    label: str = prediction[0]
+    category: str = category_mapping()[label]
 
     return NewsCategory(
         title=title,
