@@ -73,7 +73,7 @@ The app provides a command line interface (CLI) for ml experimentation and hyper
 
 Assuming the app is running, the first step is to train a classifier using the ```train_and_deploy``` endpoint. Per default, the ```pipeline.yaml``` file is used to perform a gridsearch over hyperparameters before evaluation on the test dataset. Processing time is expected to be < 10 seconds. The trained classifier is then autoamtically deployed to serve the [predict API](#Serve-the-news-classifier). Optionally, this file can be modified with valid sklearn parameters before(!) starting the service with ```docker run```.
 
-    $ curl -X GET "http://localhost:8000/train_and_deploy" -H  "accept: application/json"
+    $ curl -X GET "http://localhost:8000/train_and_deploy" -H  "accept: application/json" | json_pp
 
 Example response:
 
@@ -143,7 +143,7 @@ Example response:
 
 After training and deploying a classifier, the ```predict``` endpoint can be used make predictions for new news titles. Note that the endpoint only uses the news title as a feature and accepts only a single string as input, i.e. does not support batch predictions (!).
 
-    $ curl -X GET "http://localhost:8000/predict" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"title\":\"apple earnings crash after insider leak\"}"
+    $ curl -X POST -H "Content-Type: application/json" -d '{"title": "apple earnings crash after insider leak"}' localhost:8000/predict | json_pp
 
 Example response:
 
