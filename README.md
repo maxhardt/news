@@ -60,18 +60,9 @@ The app can be started by running:
 
 ## Usage
 
-### Experimentation (optional)
-
-The app provides a command line interface (CLI) for ml experimentation and hyperparametersearch. One possible workflow is the following:
-
-1. Edit the ```steps``` in the ```src.ml.train```module to different models.
-2. Edit the ```pipeline.yaml``` to search for the models best hyperparameters.
-3. Run ```$ python run_ml.py pipeline.yaml``` to experiment
-4. Track experiments using the mlflow Tracking APIs e.g. by running ```$ mlflow ui```
-
 ### Train and deploy a news classifier
 
-Assuming the app is running, the first step is to train a classifier using the ```train_and_deploy``` endpoint. Per default, the ```pipeline.yaml``` file is used to perform a gridsearch over hyperparameters before evaluation on the test dataset. Processing time is expected to be < 10 seconds. The trained classifier is then autoamtically deployed to serve the [predict API](#Serve-the-news-classifier). Optionally, this file can be modified with valid sklearn parameters before(!) starting the service with ```docker run```.
+Assuming the app is running, the first step is to train a classifier using the ```train_and_deploy``` endpoint. Per default, the ```pipeline.yaml``` file is used to perform a gridsearch over hyperparameters before evaluation on the test dataset. Processing time is expected to be ~ 30 seconds. The trained classifier is then autoamtically deployed to serve the [predict API](#Serve-the-news-classifier). Optionally, this file can be modified with valid sklearn parameters before(!) starting the service with ```docker run```.
 
     $ curl -X GET "http://localhost:8000/train_and_deploy" -H  "accept: application/json" | json_pp
 
@@ -154,6 +145,17 @@ Example response:
         "category": "business"
     }
 ```
+
+### Offline experimentation (optional)
+
+The app provides a command line interface (CLI) for ml experimentation and hyperparametersearch. One possible workflow is the following:
+
+1. Edit the ```steps``` in the ```src.ml.train```module to different models.
+2. Edit the ```pipeline.yaml``` to search for the models best hyperparameters.
+3. Run ```$ python run_ml.py pipeline.yaml``` to experiment
+4. Track experiments using the mlflow Tracking APIs e.g. by running ```$ mlflow ui```
+
+Note that the docker image must be rebuilt e.g. when any code or the ```pipeline.yaml``` changes.
 
 ### Check the docs
 
